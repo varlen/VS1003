@@ -18,6 +18,7 @@
 #include <Arduino.h>
 #endif
 
+
 /**
  * Driver for VS1003 - MP3 / WMA / MIDI Audio Codec Chip
  *
@@ -75,7 +76,7 @@ protected:
   void sdi_send_buffer(const uint8_t* data,size_t len);
   void sdi_send_zeroes(size_t length);
   void print_byte_register(uint8_t reg) const;
-  
+
   /**
    * Load a user code plugin
    *
@@ -83,6 +84,8 @@ protected:
    * @param len Number of words to load
    */
   void loadUserCode(const uint16_t* buf, size_t len) const;
+
+  void loadMidiCode() const;
 
 public:
 
@@ -99,6 +102,17 @@ public:
    * Sets pins correctly, and prepares SPI bus.
    */
   void begin(void);
+
+  /**
+   * Initialize real time MIDI
+   *
+  */
+  void beginMidi(void);
+
+  /**
+   * Send a MIDI message
+  */
+  void sendMidiMessage(uint8_t cmd, uint8_t data1, uint8_t data2);
 
   /**
    * Prepare to start playing
@@ -136,7 +150,6 @@ public:
    * @param vol Volume level from 0-255, lower is louder.
    */
   void setVolume(uint8_t vol) const;
-
 };
 
 #endif // __VS1003_H__
